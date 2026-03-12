@@ -35,3 +35,18 @@ export async function POST({ request }) {
 
     return Response.json({ message: 'Restaurant created', id: result.insertId }, { status: 201 });
 }
+
+export async function GET_CATEGORIES() {
+    const [rows] = await pool.query('SELECT * FROM categories');
+    return Response.json(rows, { status: 200 });
+}
+
+export async function GET_CITIES() {
+    const [rows] = await pool.query('SELECT * FROM cities');
+    return Response.json(rows, { status: 200 });
+}
+
+export async function GET_PRICES() {
+    const [rows] = await pool.query('SELECT * FROM price_ranges');
+    return Response.json(rows, { status: 200 });
+}
