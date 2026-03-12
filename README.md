@@ -1,42 +1,78 @@
-# sv
+````markdown
+# Svelte Project
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+This project is built with **Svelte** using the official CLI tool **sv**. It provides a minimal setup with formatting and linting tools to maintain clean and consistent code.
 
-## Creating a project
+## Getting Started
 
-If you're seeing this, you've probably already done this step. Congrats!
+### Create a New Project
 
-```sh
-# create a new project
+```bash
 npx sv create my-app
-```
+````
+
+### Recreate This Project
 
 To recreate this project with the same configuration:
 
-```sh
-# recreate this project
+```bash
 npx sv@0.12.5 create --template minimal --no-types --add prettier eslint --install npm .
 ```
 
-## Developing
+This setup includes:
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+* Prettier for code formatting
+* ESLint for linting
+* npm as the package manager
 
-```sh
+## Development
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
+
+```bash
 npm run dev
+```
 
-# or start the server and open the app in a new browser tab
+Start the server and open the app automatically in the browser:
+
+```bash
 npm run dev -- --open
 ```
 
-## Building
+## Build
 
-To create a production version of your app:
+Create a production build:
 
-```sh
+```bash
 npm run build
 ```
 
-You can preview the production build with `npm run preview`.
+Preview the production build locally:
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+```bash
+npm run preview
+```
+
+## Deployment
+
+To deploy the application, you may need to install an adapter depending on your hosting platform (Node, Vercel, Netlify, Static hosting, etc.).
+
+See the official documentation for more details:
+[https://svelte.dev/docs/kit/adapters](https://svelte.dev/docs/kit/adapters)
+
+## Tools
+
+* Svelte
+* sv CLI
+* Prettier
+* ESLint
+* npm
+
+```
+```
