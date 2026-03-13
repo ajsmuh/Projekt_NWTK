@@ -11,3 +11,27 @@ function checkAuth(request) {
 
     return user === API_USER && pass === API_PASS;
 }
+
+export async function GET({ params }) {
+    const { id } = params;
+
+    const [rows] = await pool.query(`
+        SELECT 
+            r.restaurant_id,
+            r.name,
+            c.cityname,
+            cat.categoryname,
+            p.price_type
+        FROM restaurants r
+        LEFT JOIN cities c ON r.city_id = c.cityid
+        LEFT JOIN categories cat ON r.category_id = cat.categoryid
+        LEFT JOIN price_ranges p ON r.priceid = p.price_id
+        WHERE r.restaurant_id = ?
+    `, [id]);
+
+    if (rows.length === 0) {
+        return Response.json({ message: 'Restaurant not found' }, { status: 404 });
+    }
+
+    return Response.json(rows[0], { status: 200 });
+}
