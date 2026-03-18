@@ -16,17 +16,7 @@ export async function GET({ params }) {
     const { id } = params;
 
     const [rows] = await pool.query(`
-        SELECT 
-            r.restaurant_id,
-            r.name,
-            c.cityname,
-            cat.categoryname,
-            p.price_type
-        FROM restaurants r
-        LEFT JOIN cities c ON r.city_id = c.cityid
-        LEFT JOIN categories cat ON r.category_id = cat.categoryid
-        LEFT JOIN price_ranges p ON r.priceid = p.price_id
-        WHERE r.restaurant_id = ?
+        SELECT * FROM restaurants WHERE restaurant_id=?;
     `, [id]);
 
     if (rows.length === 0) {
@@ -41,17 +31,17 @@ export async function PUT({ params, request }) {
     }
 
     const { id } = params;
-    const { name, city_id, category_id, priceid } = await request.json();
+    const { name, city, type, rating, year_built, avarage_price } = await request.json();
 
-    if (!name || !city_id || !category_id || !priceid) {
+    if (!name || !city || !type || !rating || !year_built || !avarage_price) {
         return Response.json({ message: 'Missing required fields' }, { status: 400 });
     }
 
     const [result] = await pool.query(
         `UPDATE restaurants 
-         SET name = ?, city_id = ?, category_id = ?, priceid = ?
+         SET name = ?,  city = ?, type = ?, rating = ?, year_built = ?, average_price = ?
          WHERE restaurant_id = ?`,
-        [name, city_id, category_id, priceid, id]
+        [name, city, type, rating, year_built, avarage_price]
     );
 
     if (result.affectedRows === 0) {
