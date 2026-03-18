@@ -11,61 +11,18 @@ function checkAuth(request) {
 
     return user === API_USER && pass === API_PASS;
 }
-
+// GET ONE RESTAURANT
 export async function GET({ params }) {
     const { id } = params;
 
-    const [rows] = await pool.query(`
-        SELECT * FROM restaurants WHERE restaurant_id=?;
-    `, [id]);
+    const [rows] = await pool.query(
+        'SELECT * FROM restaurants WHERE restaurant_id = ?',
+        [id]
+    );
 
     if (rows.length === 0) {
         return Response.json({ message: 'Restaurant not found' }, { status: 404 });
     }
 
     return Response.json(rows[0], { status: 200 });
-}
-export async function PUT({ params, request }) {
-    if (!checkAuth(request)) {
-        return Response.json({ message: 'Unauthorized' }, { status: 401 });
-    }
-
-    const { id } = params;
-    const { name, city, type, rating, year_built, avarage_price } = await request.json();
-
-    if (!name || !city || !type || !rating || !year_built || !avarage_price) {
-        return Response.json({ message: 'Missing required fields' }, { status: 400 });
-    }
-
-    const [result] = await pool.query(
-        `UPDATE restaurants 
-         SET name = ?,  city = ?, type = ?, rating = ?, year_built = ?, average_price = ?
-         WHERE restaurant_id = ?`,
-        [name, city, type, rating, year_built, avarage_price]
-    );
-
-    if (result.affectedRows === 0) {
-        return Response.json({ message: 'Restaurant not found' }, { status: 404 });
-    }
-
-    return Response.json({ message: 'Restaurant updated' }, { status: 200 });
-}
-export async function DELETE({ params, request }) {
-
-    if (!checkAuth(request)) {
-        return Response.json({ message: 'Unauthorized' }, { status: 401 });
-    }
-
-    const { id } = params;
-
-    const [result] = await pool.query(
-        'DELETE FROM restaurants WHERE restaurant_id = ?',
-        [id]
-    );
-
-    if (result.affectedRows === 0) {
-        return Response.json({ message: 'Restaurant not found' }, { status: 404 });
-    }
-
-    return new Response(null, { status: 204 });
 }
