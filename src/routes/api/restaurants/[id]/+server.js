@@ -26,6 +26,7 @@ export async function GET({ params }) {
 
     return Response.json(rows[0], { status: 200 });
 }
+
 // UPDATE RESTAURANT
 export async function PUT({ params, request }) {
     if (!checkAuth(request)) {
@@ -70,4 +71,8 @@ export async function DELETE({ params, request }) {
     }
 
     return new Response(null, { status: 204 });
+}
+const { id } = params;
+if (!id) {
+    return Response.json({ message: 'Invalid ID' }, { status: 400 });
 }
