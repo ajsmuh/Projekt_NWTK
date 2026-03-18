@@ -20,6 +20,10 @@ export async function POST({ request }) {
 
     const { name, city, type, rating, year_built, average_price } = await request.json();
 
+    if (!name || !city) {
+    return Response.json({ message: 'Name and city are required' }, { status: 400 });
+}
+
     const [result] = await pool.query(
         `INSERT INTO restaurants 
         (name, city, type, rating, year_built, average_price) 
