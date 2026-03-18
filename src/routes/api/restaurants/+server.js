@@ -1,5 +1,5 @@
 import pool from '$lib/server/database.js';
-''
+
 export async function GET() {
     const [rows] = await pool.query('SELECT * FROM restaurants');
     return Response.json(rows, { status: 200 });
@@ -47,13 +47,12 @@ function checkAuth(request) {
     return user === 'admin' && pass === 'albania2024';
 }
 
-// GET all restaurants
+
 export async function GET() {
     const [rows] = await pool.query('SELECT * FROM restaurants');
     return Response.json(rows, { status: 200 });
 }
 
-// POST create new restaurant
 export async function POST({ request }) {
     if (!checkAuth(request)) {
         return Response.json({ message: 'Unauthorized' }, { status: 401 });
