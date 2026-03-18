@@ -26,3 +26,29 @@ export async function GET({ params }) {
 
     return Response.json(rows[0], { status: 200 });
 }
+// UPDATE RESTAURANT
+export async function PUT({ params, request }) {
+    if (!checkAuth(request)) {
+        return Response.json({ message: 'Unauthorized' }, { status: 401 });
+    }
+
+    const { id } = params;
+    const { name, city, type, rating, year_built, average_price } = await request.json();
+
+    if (!name || !city) {
+        return Response.json({ message: 'Missing required fields' }, { status: 400 });
+    }
+
+    const [result] = await pool.query(
+        `UPDATE restaurants 
+         SET name = ?, city = ?, type = ?, rating = ?, year_built = ?, average_price = ?
+         WHERE restaurant_id = ?`,
+        [name, city, type, rating, year_built, average_price, id]
+    );
+
+    if (result.affectedRows === 0) {
+        return Response.json({ message: 'Restaurant not found' }, { status: 404 });
+    }
+
+    return Response.json({ message: 'Restaurant updated' }, { status: 200 });
+}
